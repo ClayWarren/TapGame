@@ -58,7 +58,6 @@ export default async function Home() {
 							{!session ? (
 								<form>
 									<button
-										type="button"
 										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
 										formAction={async () => {
 											"use server";
@@ -73,6 +72,7 @@ export default async function Home() {
 											}
 											redirect(res.url);
 										}}
+										type="button"
 									>
 										Sign in with Github
 									</button>
@@ -80,7 +80,6 @@ export default async function Home() {
 							) : (
 								<form>
 									<button
-										type="button"
 										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
 										formAction={async () => {
 											"use server";
@@ -89,6 +88,7 @@ export default async function Home() {
 											});
 											redirect("/");
 										}}
+										type="button"
 									>
 										Sign out
 									</button>
