@@ -1,9 +1,10 @@
+import "dotenv/config";
 import { defineConfig } from "@prisma/config";
-import { env } from "@/env";
 
 export default defineConfig({
 	schema: "./prisma/schema.prisma",
 	datasource: {
-		url: env.DATABASE_URL,
+		// Use raw env here so Prisma CLI works without path aliases/Next runtime.
+		url: process.env.DATABASE_URL,
 	},
 });
