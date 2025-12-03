@@ -18,6 +18,10 @@ export const auth = betterAuth({
 			redirectURI: new URL("/api/auth/callback/github", env.APP_URL).toString(),
 		},
 	},
+	advanced: {
+		// Avoid marking cookies secure on plain-http APP_URL (common in local prod builds)
+		useSecureCookies: env.APP_URL.startsWith("https://"),
+	},
 });
 
 export type Session = typeof auth.$Infer.Session;
