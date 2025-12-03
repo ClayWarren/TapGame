@@ -8,6 +8,10 @@ export const auth = betterAuth({
 	database: prismaAdapter(db, {
 		provider: "postgresql", // or "sqlite" or "mysql"
 	}),
+	account: {
+		// Keep strict in production, relax in local dev to avoid state cookie issues on http.
+		skipStateCookieCheck: env.NODE_ENV !== "production",
+	},
 	emailAndPassword: {
 		enabled: true,
 	},
