@@ -72,7 +72,7 @@ export default async function Home() {
 											}
 											redirect(res.url);
 										}}
-										type="button"
+										type="submit"
 									>
 										Sign in with Github
 									</button>
@@ -88,7 +88,7 @@ export default async function Home() {
 											});
 											redirect("/");
 										}}
-										type="button"
+										type="submit"
 									>
 										Sign out
 									</button>
