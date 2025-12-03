@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "next build",
+		"build": "next build --webpack",
 		"lint": "biome check .",
 		"lint:unsafe": "biome check --write --unsafe .",
 		"lint:write": "biome check --write .",

@@ -5,10 +5,6 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {
-	turbopack: {
-		root: import.meta.dirname,
-	},
-};
+const config = {};
 
 export default config;

@@ -6,7 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
 	test: {
-		environment: "jsdom",
+		environment: "node",
 		globals: true,
 		setupFiles: ["./vitest.setup.ts"],
 		include: ["src/**/*.{test,spec}.{ts,tsx}"],
