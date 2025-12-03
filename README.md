@@ -30,3 +30,8 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 ## Commands
 npm run check, npm run format, npm run dev
+
+## LOC breakdown (Dec 3, 2025)
+- Total tracked LOC (excluding `package-lock.json`): 1,164
+- By area: `src/` 677 (`server/` 261, `app/` 223, `trpc/` 133, `src` root 53, `styles/` 7); `start-database.sh` 88; `prisma/` 88; `biome.jsonc` 70; `package.json` 56; `.gitignore` 53; `tsconfig.json` 44; `README.md` 32; `.env.example` 22; `next.config.js` 14; `prisma.config.ts` 9; `public/` 6; `postcss.config.js` 5.
+- Counted via `git ls-files | grep -v '^package-lock.json$' | xargs wc -l`.
