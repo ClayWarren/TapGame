@@ -1,4 +1,6 @@
-# Create T3 App
+# Tap Game
+
+## All hand written code, none by AI
 
 ## LOC breakdown (Dec 3, 2025)
 - Total tracked LOC (excluding `package-lock.json`): 1,492
