@@ -6,10 +6,9 @@ import { db } from "@/server/db";
 
 export const auth = betterAuth({
 	database: prismaAdapter(db, {
-		provider: "postgresql", // or "sqlite" or "mysql"
+		provider: "postgresql",
 	}),
 	account: {
-		// Keep strict in production, relax in local dev to avoid state cookie issues on http.
 		skipStateCookieCheck: env.NODE_ENV !== "production",
 	},
 	emailAndPassword: {
@@ -23,9 +22,15 @@ export const auth = betterAuth({
 		},
 	},
 	advanced: {
-		// Avoid marking cookies secure on plain-http APP_URL (common in local prod builds)
 		useSecureCookies: env.APP_URL.startsWith("https://"),
 	},
 });
+
+// Future expansion (Better Auth):
+// - Add providers (Google, etc.) under `socialProviders`; supply clientId/clientSecret/redirectURI.
+// - Configure email templates or delivery adapters if you add magic links/verification emails.
+// - Adjust session settings (lifetimes, refresh) or password policy in `account`/`emailAndPassword`.
+// - Use webhooks/callbacks to sync profile data or provision roles on sign-up.
+// - Consider multi-tenant or RBAC by injecting tenant/org context into the session.
 
 export type Session = typeof auth.$Infer.Session;

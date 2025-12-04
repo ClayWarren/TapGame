@@ -13,10 +13,9 @@ import { createQueryClient } from "./query-client";
 let clientQueryClientSingleton: QueryClient | undefined;
 const getQueryClient = () => {
 	if (typeof window === "undefined") {
-		// Server: always make a new query client
 		return createQueryClient();
 	}
-	// Browser: use singleton pattern to keep the same query client
+
 	clientQueryClientSingleton ??= createQueryClient();
 
 	return clientQueryClientSingleton;
@@ -24,18 +23,8 @@ const getQueryClient = () => {
 
 export const api = createTRPCReact<AppRouter>();
 
-/**
- * Inference helper for inputs.
- *
- * @example type HelloInput = RouterInputs['example']['hello']
- */
 export type RouterInputs = inferRouterInputs<AppRouter>;
 
-/**
- * Inference helper for outputs.
- *
- * @example type HelloOutput = RouterOutputs['example']['hello']
- */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export function TRPCReactProvider(props: { children: React.ReactNode }) {
@@ -70,6 +59,12 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 		</QueryClientProvider>
 	);
 }
+
+// Future expansion (React client/tRPC hooks):
+// - Add Devtools: conditionally render React Query Devtools inside the provider for debugging.
+// - Suspense/streaming: enable `suspense`/`streaming` options on queries when you adopt suspense.
+// - Auth headers: if you add client-only auth tokens, inject them in the link headers above.
+// - Analytics/logging: add a link or Query Observer subscription for metrics/error reporting.
 
 function getBaseUrl() {
 	if (typeof window !== "undefined") return window.location.origin;

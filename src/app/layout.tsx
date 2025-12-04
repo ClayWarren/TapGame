@@ -21,3 +21,9 @@ export default function RootLayout({
 		</html>
 	);
 }
+
+// Future expansion (Next.js layout):
+// - Add global Providers here (theme, auth UI, analytics). Wrap inside <body>.
+// - Inject global fonts via next/font and apply to <html>/<body>.
+// - Set metadata fields (open graph, icons, themeColor) in `metadata` above.
+// - Add <head> tags (e.g., favicons) via `metadata` or a Head component if needed.

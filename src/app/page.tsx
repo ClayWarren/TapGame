@@ -78,3 +78,6 @@ export default async function Home() {
 		</HydrateClient>
 	);
 }
+
+// Touch this page when you redesign the landing experience, change auth flows (e.g., different
+// providers/actions), or alter which data is prefetched/hydrated for the home view.

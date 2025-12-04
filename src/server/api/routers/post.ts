@@ -38,3 +38,6 @@ export const postRouter = createTRPCRouter({
 		return "you can now see this secret message!";
 	}),
 });
+
+// Touch this router when you need more post endpoints (list, detail, update, delete, search),
+// richer validation/business rules, or to remove the demo routes (`hello`, `getSecretMessage`).

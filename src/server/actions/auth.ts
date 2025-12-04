@@ -26,3 +26,6 @@ export async function signOut() {
 	});
 	redirect("/");
 }
+
+// Future changes: update these actions if you add providers, change callback/return URLs,
+// pass additional state (e.g., `returnTo`), or need custom error handling/logging/CSRF checks.

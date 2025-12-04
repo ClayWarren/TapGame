@@ -1,7 +1,36 @@
+/* Pull in Tailwind v4 base/reset + utilities */
 @import "tailwindcss";
 
+/* Global design tokens live here */
 @theme {
+	/* Default font stack used by Tailwind's `font-sans` utility */
 	--font-sans:
 		ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 }
+
+/* Add custom base styles or CSS variables below.
+ * Example:
+ * @layer base {
+ *   :root { color-scheme: light; }
+ *   body { @apply bg-white text-slate-900; }
+ * }
+ *
+ * Component-level utilities can also be added:
+ * @utility btn {
+ *   @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 bg-slate-900 text-white;
+ * }
+ *
+ * Tailwind v4 quick map (all can live here):
+ * - @theme: define tokens (colors, spacing, breakpoints, radii, fonts).
+ * - @layer base { ... }: global element styles/resets.
+ * - @utility name { ... }: custom utility classes.
+ * - @variant name { ... }: custom variants if you need them.
+ * - Arbitrary values/variants still work in class names (e.g., bg-[#123], hover:[&>*]:underline).
+ *
+ * When to split into more files:
+ * - Do it later, when globals grow large (many tokens/utilities). Keep everything here for now.
+ * - If tokens explode, extract @theme blocks into `src/styles/tokens/*.css` and import them here.
+ * - If you create many reusable utilities, group them in `src/styles/utilities/*.css` and import once here.
+ * - Page/component-specific styles should live beside the component (CSS module) instead of here.
+ */

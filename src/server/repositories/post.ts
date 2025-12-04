@@ -21,3 +21,6 @@ export async function getLatestPostForUser(db: PrismaClient, userId: string) {
 		where: { createdBy: { id: userId } },
 	});
 }
+
+// Touch this repository when you add more post queries/mutations (list, update, delete, search)
+// or when you need to enforce business rules at the data layer (ownership checks, limits).

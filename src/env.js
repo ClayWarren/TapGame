@@ -2,10 +2,6 @@ import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
-	/**
-	 * Specify your server-side environment variables schema here. This way you can ensure the app
-	 * isn't built with invalid env vars.
-	 */
 	server: {
 		BETTER_AUTH_SECRET:
 			process.env.NODE_ENV === "production"
@@ -20,19 +16,10 @@ export const env = createEnv({
 			.default("development"),
 	},
 
-	/**
-	 * Specify your client-side environment variables schema here. This way you can ensure the app
-	 * isn't built with invalid env vars. To expose them to the client, prefix them with
-	 * `NEXT_PUBLIC_`.
-	 */
 	client: {
 		// NEXT_PUBLIC_CLIENTVAR: z.string(),
 	},
 
-	/**
-	 * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
-	 * middlewares) or client-side so we need to destruct manually.
-	 */
 	runtimeEnv: {
 		BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
 		BETTER_AUTH_GITHUB_CLIENT_ID: process.env.BETTER_AUTH_GITHUB_CLIENT_ID,
@@ -42,14 +29,13 @@ export const env = createEnv({
 		APP_URL: process.env.APP_URL,
 		NODE_ENV: process.env.NODE_ENV,
 	},
-	/**
-	 * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
-	 * useful for Docker builds.
-	 */
+
 	skipValidation: !!process.env.SKIP_ENV_VALIDATION,
-	/**
-	 * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and
-	 * `SOME_VAR=''` will throw an error.
-	 */
 	emptyStringAsUndefined: true,
 });
+
+// Future expansion (env + zod):
+// - Add new server-only vars to `server` and mirror them in `runtimeEnv`.
+// - To expose to the browser, add `NEXT_PUBLIC_*` keys in `client` and `runtimeEnv`.
+// - Use richer Zod schemas (e.g., enums, regex, transforms) to validate formats like emails or ports.
+// - Keep sensitive secrets out of `client`; only place them in `server`.

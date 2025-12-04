@@ -8,8 +8,6 @@ export const createQueryClient = () =>
 	new QueryClient({
 		defaultOptions: {
 			queries: {
-				// With SSR, we usually want to set some default staleTime
-				// above 0 to avoid refetching immediately on the client
 				staleTime: 30 * 1000,
 			},
 			dehydrate: {
@@ -23,3 +21,9 @@ export const createQueryClient = () =>
 			},
 		},
 	});
+
+// Future expansion (React Query):
+// - Tune caching per feature via `queryCache`/`mutationCache` or route-level `staleTime`/`gcTime`.
+// - Add global retry/backoff or disable retries for mutations that must not repeat.
+// - Add suspense/streaming defaults if you adopt React suspense for data fetching.
+// - Hook into query/mutation observers for analytics or logging of API performance.

@@ -40,9 +40,7 @@ export function LatestPost() {
 
 					try {
 						await createPost.mutateAsync({ name: trimmed });
-					} catch {
-						// onError handler sets the message
-					}
+					} catch {}
 				}}
 			>
 				<input
@@ -64,3 +62,6 @@ export function LatestPost() {
 		</div>
 	);
 }
+
+// Touch this component if you change post query/mutation shapes, want better error UX,
+// add optimistic updates, or replace suspense with standard queries.

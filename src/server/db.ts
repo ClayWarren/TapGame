@@ -25,3 +25,6 @@ export const db = globalForPrisma.prisma ?? createPrismaClient();
 if (env.NODE_ENV !== "production") {
 	globalForPrisma.prisma = db;
 }
+
+// Touch this if you change DB provider/adapter, need pool tuning, or want different Prisma
+// logging/query options. In prod, avoid global caching; in dev, keep the singleton as-is.

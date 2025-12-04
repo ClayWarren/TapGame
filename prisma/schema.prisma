@@ -9,6 +9,12 @@ datasource db {
   provider = "postgresql"
 }
 
+/// Future expansion (Prisma):
+/// - Add models here; run `pnpm prisma migrate dev` to create migrations and regenerate the client.
+/// - Use `@map`/`@@map` to align DB naming, `@relation` for FKs, `@index`/`@@unique` for lookups.
+/// - Add `@db.*` attributes if you need specific column types (e.g., decimals, enums) per provider.
+/// - Consider `@@fulltext` (Postgres) or `@@index` on search fields; add `@default(uuid())` for UUIDs.
+
 model Post {
   id        String   @id @default(cuid())
   name      String
