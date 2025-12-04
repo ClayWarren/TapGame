@@ -1,4 +1,4 @@
-import type { PrismaClient } from "../../../generated/prisma";
+import type { PrismaClient } from "../../../prisma/generated/client";
 
 export async function createPostForUser(
 	db: PrismaClient,

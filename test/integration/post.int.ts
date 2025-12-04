@@ -1,5 +1,5 @@
-import type { PrismaClient } from "@prisma/client";
 import { describe, expect, it } from "vitest";
+import type { PrismaClient } from "../../prisma/generated/client";
 
 describe("post repository integration", () => {
 	it("creates and fetches latest post for a user", async () => {

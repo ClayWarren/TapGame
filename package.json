@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "next build --turbopack",
+		"build": "next build",
 		"lint": "biome check .",
 		"lint:unsafe": "biome check --write --unsafe .",
 		"lint:write": "biome check --write .",
@@ -13,7 +13,7 @@
 		"db:migrate": "prisma migrate deploy",
 		"db:push": "prisma db push",
 		"db:studio": "prisma studio",
-		"dev": "next dev --turbo",
+		"dev": "next dev",
 		"postinstall": "prisma generate",
 		"test": "vitest",
 		"test:e2e": "playwright test",
