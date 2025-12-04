@@ -4,14 +4,22 @@ type LatestPostResult = { name: string } | null;
 
 type UseSuspenseQueryFn = () => [LatestPostResult];
 
-type UseMutationFn = () => {
+type MutationOptions = {
+	onSuccess?: (data: unknown, variables: unknown, context: unknown) => unknown;
+	onError?: (error: unknown, variables: unknown, context: unknown) => unknown;
+};
+
+type UseMutationFn = (opts?: MutationOptions) => {
 	isPending: boolean;
-	mutateAsync: (input: unknown) => Promise<void>;
+	mutateAsync: (input: unknown) => Promise<unknown>;
 };
 
 type Overrides = Partial<{
 	useSuspenseQuery: UseSuspenseQueryFn;
 	useMutation: UseMutationFn;
+	mutateAsync: (input: unknown) => Promise<unknown>;
+	isPending: boolean;
+	invalidate: () => Promise<void>;
 }>;
 
 export const createTRPCReactMock = (overrides: Overrides = {}) => ({
@@ -23,15 +31,32 @@ export const createTRPCReactMock = (overrides: Overrides = {}) => ({
 		create: {
 			useMutation:
 				overrides.useMutation ||
-				(() => ({
-					isPending: false,
-					mutateAsync: vi.fn<(input: unknown) => Promise<void>>(),
-				})),
+				((opts?: MutationOptions) => {
+					const mutateAsync =
+						overrides.mutateAsync ||
+						vi.fn<(input: unknown) => Promise<unknown>>(async () => undefined);
+
+					return {
+						isPending: overrides.isPending ?? false,
+						mutateAsync: async (input: unknown) => {
+							try {
+								const result = await mutateAsync(input);
+								await opts?.onSuccess?.(result, input, undefined);
+								return result;
+							} catch (err) {
+								await opts?.onError?.(err, input, undefined);
+								throw err;
+							}
+						},
+					};
+				}),
 		},
 	},
 	useUtils: () => ({
 		post: {
-			invalidate: vi.fn<() => Promise<void>>(),
+			invalidate:
+				overrides.invalidate ||
+				vi.fn<() => Promise<void>>(async () => undefined),
 		},
 	}),
 });

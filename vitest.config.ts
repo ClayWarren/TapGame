@@ -11,6 +11,16 @@ export default defineConfig({
 		setupFiles: ["./vitest.setup.ts"],
 		include: ["src/**/*.{test,spec}.{ts,tsx}"],
 		css: false,
+		coverage: {
+			reporter: ["text", "html"],
+			exclude: ["generated/**", "**/*.d.ts", "test/**"],
+			thresholds: {
+				branches: 85,
+				functions: 95,
+				lines: 95,
+				statements: 95,
+			},
+		},
 	},
 	resolve: {
 		alias: {
