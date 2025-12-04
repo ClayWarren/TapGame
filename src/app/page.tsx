@@ -1,9 +1,7 @@
-import { headers } from "next/headers";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { LatestPost } from "@/app/_components/post";
-import { auth } from "@/server/better-auth";
+import { signInWithGithub, signOut } from "@/server/actions/auth";
 import { getSession } from "@/server/better-auth/server";
 import { api, HydrateClient } from "@/trpc/server";
 
@@ -12,7 +10,7 @@ export default async function Home() {
 	const session = await getSession();
 
 	if (session) {
-		void api.post.getLatest.prefetch();
+		await api.post.getLatest.prefetch();
 	}
 
 	return (
@@ -59,19 +57,7 @@ export default async function Home() {
 								<form>
 									<button
 										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-										formAction={async () => {
-											"use server";
-											const res = await auth.api.signInSocial({
-												body: {
-													provider: "github",
-													callbackURL: "/",
-												},
-											});
-											if (!res.url) {
-												throw new Error("No URL returned from signInSocial");
-											}
-											redirect(res.url);
-										}}
+										formAction={signInWithGithub}
 										type="submit"
 									>
 										Sign in with Github
@@ -81,13 +67,7 @@ export default async function Home() {
 								<form>
 									<button
 										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-										formAction={async () => {
-											"use server";
-											await auth.api.signOut({
-												headers: await headers(),
-											});
-											redirect("/");
-										}}
+										formAction={signOut}
 										type="submit"
 									>
 										Sign out

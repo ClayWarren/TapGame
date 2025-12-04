@@ -6,7 +6,7 @@ type UseSuspenseQueryFn = () => [LatestPostResult];
 
 type UseMutationFn = () => {
 	isPending: boolean;
-	mutate: (input: unknown) => void;
+	mutateAsync: (input: unknown) => Promise<void>;
 };
 
 type Overrides = Partial<{
@@ -25,7 +25,7 @@ export const createTRPCReactMock = (overrides: Overrides = {}) => ({
 				overrides.useMutation ||
 				(() => ({
 					isPending: false,
-					mutate: vi.fn<(input: unknown) => void>(),
+					mutateAsync: vi.fn<(input: unknown) => Promise<void>>(),
 				})),
 		},
 	},

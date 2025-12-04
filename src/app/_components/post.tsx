@@ -9,10 +9,15 @@ export function LatestPost() {
 
 	const utils = api.useUtils();
 	const [name, setName] = useState("");
+	const [error, setError] = useState<string | null>(null);
 	const createPost = api.post.create.useMutation({
 		onSuccess: async () => {
 			await utils.post.invalidate();
 			setName("");
+			setError(null);
+		},
+		onError: (err) => {
+			setError(err.message ?? "Failed to create post");
 		},
 	});
 
@@ -25,9 +30,19 @@ export function LatestPost() {
 			)}
 			<form
 				className="flex flex-col gap-2"
-				onSubmit={(e) => {
+				onSubmit={async (e) => {
 					e.preventDefault();
-					createPost.mutate({ name });
+					const trimmed = name.trim();
+					if (!trimmed) {
+						setError("Title is required");
+						return;
+					}
+
+					try {
+						await createPost.mutateAsync({ name: trimmed });
+					} catch {
+						// onError handler sets the message
+					}
 				}}
 			>
 				<input
@@ -37,9 +52,10 @@ export function LatestPost() {
 					type="text"
 					value={name}
 				/>
+				{error && <p className="text-red-200 text-sm">{error}</p>}
 				<button
 					className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-					disabled={createPost.isPending}
+					disabled={createPost.isPending || name.trim().length === 0}
 					type="submit"
 				>
 					{createPost.isPending ? "Submitting..." : "Submit"}

@@ -16,14 +16,14 @@ vi.mock("@/trpc/react", () => ({
 }));
 
 describe("LatestPost component", () => {
-	it("submits using createPost.mutate", () => {
-		const mutateMock = vi.fn();
+	it("submits using createPost.mutateAsync", () => {
+		const mutateAsyncMock = vi.fn();
 
 		mockApi = createTRPCReactMock({
 			useSuspenseQuery: () => [{ name: "Hello" }],
 			useMutation: () => ({
 				isPending: false,
-				mutate: mutateMock,
+				mutateAsync: mutateAsyncMock,
 			}),
 		});
 
@@ -35,7 +35,7 @@ describe("LatestPost component", () => {
 
 		fireEvent.click(screen.getByText("Submit"));
 
-		expect(mutateMock).toHaveBeenCalledWith({ name: "Hello world" });
+		expect(mutateAsyncMock).toHaveBeenCalledWith({ name: "Hello world" });
 	});
 
 	it('shows "Submitting..." when mutation is pending', () => {
@@ -43,7 +43,7 @@ describe("LatestPost component", () => {
 			useSuspenseQuery: () => [{ name: "X" }],
 			useMutation: () => ({
 				isPending: true,
-				mutate: vi.fn(),
+				mutateAsync: vi.fn(),
 			}),
 		});
 
