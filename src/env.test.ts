@@ -17,7 +17,7 @@ describe("env config", () => {
 		process.env.APP_URL = "https://app.example.com";
 		delete process.env.BETTER_AUTH_SECRET;
 
-		await expect(import("./env.js")).rejects.toThrow();
+		await expect(import("./env")).rejects.toThrow();
 	});
 
 	it("loads successfully when required env vars are present in production", async () => {
@@ -28,7 +28,7 @@ describe("env config", () => {
 		process.env.DATABASE_URL = "https://example.com";
 		process.env.APP_URL = "https://app.example.com";
 
-		const { env } = await import("./env.js");
+		const { env } = await import("./env");
 
 		expect(env.BETTER_AUTH_SECRET).toBe("super-secret");
 	});
