@@ -15,4 +15,4 @@
 - **Quality**: Biome for lint/format; Vitest + Testing Library; tsc `--noEmit`. CI not set up yet.
 - **Environment**: Configured with `@t3-oss/env-nextjs`; required vars include `BETTER_AUTH_SECRET` (>=32 chars), GitHub client creds, `DATABASE_URL`, `APP_URL`.
 
-Deployed on Vercel 
+Deployed on Vercel https://writingcode.vercel.app
