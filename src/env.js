@@ -9,8 +9,8 @@ export const env = createEnv({
 				: z.string().optional(),
 		BETTER_AUTH_GITHUB_CLIENT_ID: z.string(),
 		BETTER_AUTH_GITHUB_CLIENT_SECRET: z.string(),
-		DATABASE_URL: z.string().url(),
-		APP_URL: z.string().url().default("http://localhost:3000"),
+		DATABASE_URL: z.url(),
+		APP_URL: z.url().default("http://localhost:3000"),
 		NODE_ENV: z
 			.enum(["development", "test", "production"])
 			.default("development"),
