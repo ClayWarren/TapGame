@@ -25,7 +25,7 @@ export default async function Home() {
 							href="https://create.t3.gg/en/usage/first-steps"
 							target="_blank"
 						>
-							<h3 className="font-bold text-2xl">First Steps →</h3>
+							<h2 className="font-bold text-2xl">First Steps →</h2>
 							<div className="text-lg">
 								Just the basics - Everything you need to know to set up your
 								database and authentication.
@@ -36,7 +36,7 @@ export default async function Home() {
 							href="https://create.t3.gg/en/introduction"
 							target="_blank"
 						>
-							<h3 className="font-bold text-2xl">Documentation →</h3>
+							<h2 className="font-bold text-2xl">Documentation →</h2>
 							<div className="text-lg">
 								Learn more about Create T3 App, the libraries it uses, and how
 								to deploy it.
