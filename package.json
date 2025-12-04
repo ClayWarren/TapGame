@@ -22,7 +22,7 @@
 		"test:int": "vitest --config vitest.int.config.ts",
 		"preview": "next build && next start",
 		"start": "next start",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsgo --noEmit"
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.11.1",
@@ -53,13 +53,12 @@
 		"@types/pg": "^8.15.6",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
-		"@types/testing-library__jest-dom": "^6.0.0",
+		"@typescript/native-preview": "7.0.0-dev.20251204.1",
 		"@vitest/coverage-v8": "^4.0.15",
 		"jsdom": "^27.2.0",
 		"postcss": "^8.5.6",
 		"prisma": "^7.1.0",
 		"tailwindcss": "^4.1.17",
-		"typescript": "^5.9.3",
 		"vitest": "^4.0.15"
 	},
 	"ct3aMetadata": {
