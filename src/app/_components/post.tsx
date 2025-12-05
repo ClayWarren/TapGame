@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { api } from "@/trpc/react";
 
@@ -9,6 +9,14 @@ export function LatestPost() {
 
 	const utils = api.useUtils();
 	const [error, setError] = useState<string | null>(null);
+	const [cached, setCached] = useState<number | null>(null);
+
+	// Read cached score once on mount.
+	useEffect(() => {
+		const saved = globalThis.localStorage?.getItem("score");
+		if (saved !== null && saved !== undefined) setCached(Number(saved));
+	}, []);
+
 	const createPost = api.post.create.useMutation({
 		onSuccess: async () => {
 			await utils.post.invalidate();
@@ -20,10 +28,12 @@ export function LatestPost() {
 		},
 	});
 
+	const display = cached ?? latestPost?.name ?? null;
+
 	return (
 		<div className="w-full max-w-xs">
-			{latestPost ? (
-				<p className="truncate">Score: {latestPost.name}</p>
+			{display !== null ? (
+				<p className="truncate">Score: {display}</p>
 			) : (
 				<p>You have no posts yet.</p>
 			)}
@@ -31,8 +41,10 @@ export function LatestPost() {
 				className="flex flex-col gap-2"
 				onSubmit={async (e) => {
 					e.preventDefault();
-					const currentScore = Number(latestPost?.name) || 0;
+					const currentScore = Number(display) || 0;
 					const nextScore = currentScore + 1;
+					setCached(nextScore);
+					globalThis.localStorage?.setItem("score", String(nextScore));
 					await createPost.mutateAsync({ name: String(nextScore) });
 				}}
 			>

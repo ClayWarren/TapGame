@@ -8,7 +8,7 @@ Modern full-stack web app scaffold using Next.js, tRPC, Prisma, and TypeScript 7
 - **Next.js App Router** (server actions + RSC) with Turbopack build; routes live under `src/app`.
 - **tRPC v11 + React Query v5**: server router in `src/server/api`, React hooks in `src/trpc`. Hydration helpers for RSC/CSR; context wires Prisma + Better Auth session. Typed end-to-end with **TypeScript 7** and input validation via **Zod**.
 - **Auth**: Better Auth (GitHub OAuth + email/password) with Prisma adapter; server helpers in `src/server/better-auth`, client hooks in `src/server/better-auth/client.ts`; shared actions in `src/server/actions/auth.ts`.
-- **Data**: Prisma client generated to `generated/prisma`; Postgres via `pg` pool (`src/server/db.ts`). Current models: `User`, `Post`, auth tables.
+- **Data**: Prisma client generated to `generated/prisma`; Postgres via `pg` pool (`src/server/db.ts`). Current models: `User`, `Post`, auth tables. Client-side score cache lives in `localStorage` to persist the tap count between refreshes; server (tRPC/Prisma) remains source of truth.
 - **UI**: **React 19** with the Next.js App Router; client components coexist with RSC as needed.
 - **Styling**: Tailwind CSS (v4) + `globals.css`; minimal custom styles.
 - **Quality**: Biome for lint/format; Vitest + Testing Library + Playwright for e2e; tsgo `--noEmit`. CI not set up yet.

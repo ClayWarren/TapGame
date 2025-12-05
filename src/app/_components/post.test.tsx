@@ -8,6 +8,10 @@ import { LatestPost } from "./post";
 // Create a mutable reference we can override per-test
 let mockApi: ReturnType<typeof createTRPCReactMock>;
 
+beforeEach(() => {
+	localStorage.clear();
+});
+
 // Vitest mock that always returns our mockApi reference
 vi.mock("@/trpc/react", () => ({
 	get api() {
@@ -139,6 +143,22 @@ describe("LatestPost component", () => {
 		expect(
 			await screen.findByText(/failed to create post/i),
 		).toBeInTheDocument();
+	});
+
+	it("prefers cached score from localStorage when present", () => {
+		localStorage.setItem("score", "9");
+
+		mockApi = createTRPCReactMock({
+			useSuspenseQuery: () => [{ name: "2" }],
+			useMutation: () => ({
+				isPending: false,
+				mutateAsync: vi.fn(),
+			}),
+		});
+
+		render(<LatestPost />);
+
+		expect(screen.getByText("Score: 9")).toBeInTheDocument();
 	});
 
 	it("starts at score 1 when there is no latest post", async () => {
