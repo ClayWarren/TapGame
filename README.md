@@ -1,6 +1,6 @@
 # Tap Game
 
-Modern full-stack web app scaffold using Next.js, tRPC, Prisma, and TypeScript 7.
+Modern full-stack web app scaffold using Next.js, tRPC, Prisma, and TypeScript 7. Tap the button and watch your score rise.
 
 ## All hand written code, none by AI
 
