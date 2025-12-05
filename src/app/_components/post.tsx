@@ -30,6 +30,9 @@ export function LatestPost() {
 				className="flex flex-col gap-2"
 				onSubmit={async (e) => {
 					e.preventDefault();
+					const currentScore = Number(latestPost?.name) || 0;
+					const nextScore = currentScore + 1;
+					await createPost.mutateAsync({ name: String(nextScore) });
 				}}
 			>
 				{error && <p className="text-red-200 text-sm">{error}</p>}
