@@ -44,7 +44,7 @@ export function LatestPost({ isAuthenticated }: { isAuthenticated: boolean }) {
 				<p>You have no posts yet.</p>
 			)}
 			{!isAuthenticated && (
-				<p className="text-sm text-white/80">
+				<p className="text-[color:var(--fg)] text-sm opacity-80">
 					Playing offline — sign in anytime to sync your score across devices.
 				</p>
 			)}
@@ -64,7 +64,7 @@ export function LatestPost({ isAuthenticated }: { isAuthenticated: boolean }) {
 			>
 				{error && <p className="text-red-200 text-sm">{error}</p>}
 				<button
-					className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
+					className="rounded-full bg-[color:var(--button-bg)] px-10 py-3 font-semibold text-[color:var(--button-fg)] shadow-sm transition hover:opacity-90"
 					disabled={isSaving}
 					type="submit"
 				>

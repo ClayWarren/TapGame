@@ -23,7 +23,7 @@ export function AuthButtons({ session }: { session: Session | null }) {
 	};
 
 	const buttonClasses =
-		"rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20 disabled:opacity-60";
+		"rounded-full bg-[color:var(--button-bg)] px-10 py-3 font-semibold text-[color:var(--button-fg)] no-underline shadow-sm transition hover:opacity-90 disabled:opacity-60";
 
 	if (!session) {
 		return (

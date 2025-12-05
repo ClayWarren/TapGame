@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 
 import type { Metadata } from "next";
 
+import { ThemeProvider } from "next-themes";
+
 import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
@@ -38,9 +40,11 @@ export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body>
-				<TRPCReactProvider>{children}</TRPCReactProvider>
+				<ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem>
+					<TRPCReactProvider>{children}</TRPCReactProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);
