@@ -1,3 +1,4 @@
+import { FaGithub } from "react-icons/fa";
 import { AuthButtons } from "@/app/_components/auth-buttons";
 import { LatestPost } from "@/app/_components/post";
 import { getSession } from "@/server/better-auth/server";
@@ -17,6 +18,16 @@ export default async function Home() {
 					<h1 className="font-extrabold text-5xl tracking-tight sm:text-[5rem]">
 						Tap <span className="text-[hsl(280,100%,70%)]"></span> Game
 					</h1>
+
+					<a
+						aria-label="view the repo on Github"
+						className="inline-flex items-center gap-2 text-white hover:text-[hsl(280,100%,70%)]"
+						href="https://github.com/ClayWarren/TapGame"
+					>
+						<FaGithub aria-hidden size={22} />
+						<span>Github</span>
+					</a>
+
 					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8"></div>
 					<div className="flex flex-col items-center gap-2">
 						<div className="flex flex-col items-center justify-center gap-4">
