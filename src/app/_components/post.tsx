@@ -42,7 +42,7 @@ export function LatestPost() {
 					disabled={createPost.isPending}
 					type="submit"
 				>
-					{createPost.isPending ? "Submitting..." : "Tap Me!"}
+					Tap Me!
 				</button>
 			</form>
 		</div>
