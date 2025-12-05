@@ -60,7 +60,7 @@ const timingMiddleware = t._config.isDev
 			const result = await next();
 
 			const end = Date.now();
-			if (process.env.TRPC_TIMING_LOG !== "false") {
+			if (process.env["TRPC_TIMING_LOG"] !== "false") {
 				console.debug(`[TRPC] ${path} took ${end - start}ms`);
 			}
 

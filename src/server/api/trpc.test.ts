@@ -138,7 +138,7 @@ describe("trpc utilities", () => {
 		});
 
 		const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
-		process.env.TRPC_TIMING_LOG = "true";
+		process.env["TRPC_TIMING_LOG"] = "true";
 
 		await caller.ping();
 
@@ -147,7 +147,7 @@ describe("trpc utilities", () => {
 	});
 
 	it("timing middleware skips log when TRPC_TIMING_LOG is false in dev", async () => {
-		process.env.TRPC_TIMING_LOG = "false";
+		process.env["TRPC_TIMING_LOG"] = "false";
 
 		const router = createTRPCRouter({
 			ping: publicProcedure.query(() => "pong"),
@@ -168,7 +168,7 @@ describe("trpc utilities", () => {
 
 	it("timing middleware falls back to no-op in production", async () => {
 		vi.stubEnv("NODE_ENV", "production");
-		process.env.TRPC_TIMING_LOG = "false";
+		process.env["TRPC_TIMING_LOG"] = "false";
 		vi.resetModules();
 
 		vi.doMock("@/server/better-auth", () => ({

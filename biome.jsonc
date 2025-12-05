@@ -25,6 +25,27 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"complexity": {
+				"useLiteralKeys": "off"
+			},
+			"correctness": {
+				"noUnusedLabels": "error",
+				"useJsxKeyInIterable": "error"
+			},
+			"style": {
+				"useImportType": "error",
+				"useConsistentTypeDefinitions": {
+					"level": "error",
+					"options": {
+						"style": "type"
+					}
+				},
+				"useSelfClosingElements": "error"
+			},
+			"suspicious": {
+				"noTsIgnore": "error",
+				"noAsyncPromiseExecutor": "error"
+			},
 			"nursery": {
 				"useSortedClasses": {
 					"level": "warn",
