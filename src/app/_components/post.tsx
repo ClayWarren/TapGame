@@ -15,7 +15,8 @@ export function LatestPost() {
 			setError(null);
 		},
 		onError: (err) => {
-			setError(err.message ?? "Failed to create post");
+			// Fallback to friendly default when the error message is empty/undefined.
+			setError(err.message || "Failed to create post");
 		},
 	});
 
@@ -38,6 +39,7 @@ export function LatestPost() {
 				{error && <p className="text-red-200 text-sm">{error}</p>}
 				<button
 					className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
+					disabled={createPost.isPending}
 					type="submit"
 				>
 					{createPost.isPending ? "Submitting..." : "Tap Me!"}

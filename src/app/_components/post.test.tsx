@@ -119,6 +119,27 @@ describe("LatestPost component", () => {
 		expect(invalidate).not.toHaveBeenCalled();
 	});
 
+	it("falls back to default error message when error message is missing", async () => {
+		mockApi = createTRPCReactMock({
+			useSuspenseQuery: () => [{ name: "5" }],
+			useMutation: (opts) => ({
+				isPending: false,
+				mutateAsync: async () => {
+					opts?.onError?.(new Error(), undefined, undefined);
+				},
+			}),
+			invalidate: vi.fn(),
+		});
+
+		render(<LatestPost />);
+
+		fireEvent.click(screen.getByRole("button", { name: /tap me!/i }));
+
+		expect(
+			await screen.findByText(/failed to create post/i),
+		).toBeInTheDocument();
+	});
+
 	it("starts at score 1 when there is no latest post", async () => {
 		const mutateAsync = vi.fn(async () => undefined);
 
