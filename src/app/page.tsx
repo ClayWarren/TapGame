@@ -1,5 +1,5 @@
+import { AuthButtons } from "@/app/_components/auth-buttons";
 import { LatestPost } from "@/app/_components/post";
-import { signInWithGithub, signOut } from "@/server/actions/auth";
 import { getSession } from "@/server/better-auth/server";
 import { api, HydrateClient } from "@/trpc/server";
 
@@ -23,27 +23,7 @@ export default async function Home() {
 							<p className="text-center text-2xl text-white">
 								{session && <span>Logged in as {session.user?.name}</span>}
 							</p>
-							{!session ? (
-								<form>
-									<button
-										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-										formAction={signInWithGithub}
-										type="submit"
-									>
-										Sign in with Github
-									</button>
-								</form>
-							) : (
-								<form>
-									<button
-										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-										formAction={signOut}
-										type="submit"
-									>
-										Sign out
-									</button>
-								</form>
-							)}
+							<AuthButtons session={session} />
 						</div>
 					</div>
 
