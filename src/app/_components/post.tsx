@@ -18,8 +18,8 @@ export function LatestPost() {
 	}, []);
 
 	const createPost = api.post.create.useMutation({
-		onSuccess: async () => {
-			await utils.post.invalidate();
+		onSuccess: () => {
+			void utils.post.invalidate();
 			setError(null);
 		},
 		onError: (err) => {
@@ -39,19 +39,18 @@ export function LatestPost() {
 			)}
 			<form
 				className="flex flex-col gap-2"
-				onSubmit={async (e) => {
+				onSubmit={(e) => {
 					e.preventDefault();
 					const currentScore = Number(display) || 0;
 					const nextScore = currentScore + 1;
 					setCached(nextScore);
 					globalThis.localStorage?.setItem("score", String(nextScore));
-					await createPost.mutateAsync({ name: String(nextScore) });
+					void createPost.mutateAsync({ name: String(nextScore) });
 				}}
 			>
 				{error && <p className="text-red-200 text-sm">{error}</p>}
 				<button
 					className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-					disabled={createPost.isPending}
 					type="submit"
 				>
 					Tap Me!

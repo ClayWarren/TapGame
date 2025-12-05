@@ -48,7 +48,7 @@ describe("LatestPost component", () => {
 		expect(screen.getByText("You have no posts yet.")).toBeInTheDocument();
 	});
 
-	it("disables the button while submission is pending", () => {
+	it("keeps the button enabled while submission is pending", () => {
 		mockApi = createTRPCReactMock({
 			useSuspenseQuery: () => [{ name: "Y" }],
 			useMutation: () => ({
@@ -60,7 +60,7 @@ describe("LatestPost component", () => {
 		render(<LatestPost />);
 
 		const button = screen.getByRole("button", { name: /tap me!/i });
-		expect(button).toBeDisabled();
+		expect(button).toBeEnabled();
 	});
 
 	it('shows "Tap Me!" when mutation is idle', () => {
