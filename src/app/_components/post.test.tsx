@@ -22,57 +22,57 @@ vi.mock("@/trpc/react", () => ({
 describe("LatestPost component", () => {
 	it("renders latest post when available", () => {
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [{ name: "X" }],
+			useQuery: () => ({ data: { name: "X" } }),
 			useMutation: () => ({
 				isPending: true,
 				mutateAsync: vi.fn(),
 			}),
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		expect(screen.getByText("Score: X")).toBeInTheDocument();
 	});
 
 	it("shows empty state when there are no posts", () => {
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [null],
+			useQuery: () => ({ data: null }),
 			useMutation: () => ({
 				isPending: false,
 				mutateAsync: vi.fn(),
 			}),
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		expect(screen.getByText("You have no posts yet.")).toBeInTheDocument();
 	});
 
-	it("keeps the button enabled while submission is pending", () => {
+	it("disables the button while submission is pending for authed users without changing label", () => {
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [{ name: "Y" }],
+			useQuery: () => ({ data: { name: "Y" } }),
 			useMutation: () => ({
 				isPending: true,
 				mutateAsync: vi.fn(),
 			}),
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		const button = screen.getByRole("button", { name: /tap me!/i });
-		expect(button).toBeEnabled();
+		expect(button).toBeDisabled();
 	});
 
 	it('shows "Tap Me!" when mutation is idle', () => {
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [{ name: "Z" }],
+			useQuery: () => ({ data: { name: "Z" } }),
 			useMutation: () => ({
 				isPending: false,
 				mutateAsync: vi.fn(),
 			}),
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		expect(
 			screen.getByRole("button", { name: /tap me!/i }),
@@ -84,12 +84,12 @@ describe("LatestPost component", () => {
 		const invalidate = vi.fn(async () => undefined);
 
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [{ name: "2" }],
+			useQuery: () => ({ data: { name: "2" } }),
 			mutateAsync,
 			invalidate,
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		fireEvent.click(screen.getByRole("button", { name: /tap me!/i }));
 
@@ -106,7 +106,7 @@ describe("LatestPost component", () => {
 		const invalidate = vi.fn(async () => undefined);
 
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [{ name: "4" }],
+			useQuery: () => ({ data: { name: "4" } }),
 			useMutation: (opts) => ({
 				isPending: false,
 				mutateAsync: async () => {
@@ -116,7 +116,7 @@ describe("LatestPost component", () => {
 			invalidate,
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		fireEvent.click(screen.getByRole("button", { name: /tap me!/i }));
 
@@ -126,7 +126,7 @@ describe("LatestPost component", () => {
 
 	it("falls back to default error message when error message is missing", async () => {
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [{ name: "5" }],
+			useQuery: () => ({ data: { name: "5" } }),
 			useMutation: (opts) => ({
 				isPending: false,
 				mutateAsync: async () => {
@@ -136,7 +136,7 @@ describe("LatestPost component", () => {
 			invalidate: vi.fn(),
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		fireEvent.click(screen.getByRole("button", { name: /tap me!/i }));
 
@@ -149,14 +149,14 @@ describe("LatestPost component", () => {
 		localStorage.setItem("score", "9");
 
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [{ name: "2" }],
+			useQuery: () => ({ data: { name: "2" } }),
 			useMutation: () => ({
 				isPending: false,
 				mutateAsync: vi.fn(),
 			}),
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		expect(screen.getByText("Score: 9")).toBeInTheDocument();
 	});
@@ -165,16 +165,50 @@ describe("LatestPost component", () => {
 		const mutateAsync = vi.fn(async () => undefined);
 
 		mockApi = createTRPCReactMock({
-			useSuspenseQuery: () => [null],
+			useQuery: () => ({ data: null }),
 			mutateAsync,
 		});
 
-		render(<LatestPost />);
+		render(<LatestPost isAuthenticated />);
 
 		fireEvent.click(screen.getByRole("button", { name: /tap me!/i }));
 
 		await waitFor(() =>
 			expect(mutateAsync).toHaveBeenCalledWith({ name: "1" }),
 		);
+	});
+
+	it("shows offline hint when user is not authenticated", () => {
+		mockApi = createTRPCReactMock({
+			useQuery: () => ({ data: null }),
+			useMutation: () => ({
+				isPending: false,
+				mutateAsync: vi.fn(),
+			}),
+		});
+
+		render(<LatestPost isAuthenticated={false} />);
+
+		expect(
+			screen.getByText(/playing offline — sign in anytime to sync your score/i),
+		).toBeInTheDocument();
+	});
+
+	it("does not call mutation when unauthenticated submit occurs", () => {
+		const mutateAsync = vi.fn();
+
+		mockApi = createTRPCReactMock({
+			useQuery: () => ({ data: { name: "3" } }),
+			useMutation: () => ({
+				isPending: false,
+				mutateAsync,
+			}),
+		});
+
+		render(<LatestPost isAuthenticated={false} />);
+
+		fireEvent.click(screen.getByRole("button", { name: /tap me!/i }));
+
+		expect(mutateAsync).not.toHaveBeenCalled();
 	});
 });

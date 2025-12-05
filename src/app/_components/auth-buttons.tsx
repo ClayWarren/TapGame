@@ -1,11 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import type { Session } from "@/server/better-auth";
 import { authClient } from "@/server/better-auth/client";
 
 export function AuthButtons({ session }: { session: Session | null }) {
 	const [pending, startTransition] = useTransition();
+	const router = useRouter();
 
 	const handleSignIn = () => {
 		startTransition(() => {
@@ -14,8 +16,9 @@ export function AuthButtons({ session }: { session: Session | null }) {
 	};
 
 	const handleSignOut = () => {
-		startTransition(() => {
-			authClient.signOut();
+		startTransition(async () => {
+			await authClient.signOut();
+			router.refresh();
 		});
 	};
 

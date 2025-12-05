@@ -2,7 +2,7 @@ import { vi } from "vitest";
 
 type LatestPostResult = { name: string } | null;
 
-type UseSuspenseQueryFn = () => [LatestPostResult];
+type UseQueryFn = () => { data: LatestPostResult };
 
 type MutationOptions = {
 	onSuccess?: (data: unknown, variables: unknown, context: unknown) => unknown;
@@ -15,7 +15,7 @@ type UseMutationFn = (opts?: MutationOptions) => {
 };
 
 type Overrides = Partial<{
-	useSuspenseQuery: UseSuspenseQueryFn;
+	useQuery: UseQueryFn;
 	useMutation: UseMutationFn;
 	mutateAsync: (input: unknown) => Promise<unknown>;
 	isPending: boolean;
@@ -25,8 +25,8 @@ type Overrides = Partial<{
 export const createTRPCReactMock = (overrides: Overrides = {}) => ({
 	post: {
 		getLatest: {
-			useSuspenseQuery:
-				overrides.useSuspenseQuery || (() => [null as LatestPostResult]),
+			useQuery:
+				overrides.useQuery || (() => ({ data: null as LatestPostResult })),
 		},
 		create: {
 			useMutation:

@@ -4,8 +4,12 @@ import { useEffect, useState } from "react";
 
 import { api } from "@/trpc/react";
 
-export function LatestPost() {
-	const [latestPost] = api.post.getLatest.useSuspenseQuery();
+export function LatestPost({ isAuthenticated }: { isAuthenticated: boolean }) {
+	const { data: latestPost } = api.post.getLatest.useQuery(undefined, {
+		enabled: isAuthenticated,
+		suspense: false,
+		retry: false,
+	});
 
 	const utils = api.useUtils();
 	const [error, setError] = useState<string | null>(null);
@@ -28,6 +32,8 @@ export function LatestPost() {
 		},
 	});
 
+	const isSaving = isAuthenticated && createPost.isPending;
+
 	const display = cached ?? latestPost?.name ?? null;
 
 	return (
@@ -37,6 +43,11 @@ export function LatestPost() {
 			) : (
 				<p>You have no posts yet.</p>
 			)}
+			{!isAuthenticated && (
+				<p className="text-sm text-white/80">
+					Playing offline — sign in anytime to sync your score across devices.
+				</p>
+			)}
 			<form
 				className="flex flex-col gap-2"
 				onSubmit={(e) => {
@@ -45,12 +56,16 @@ export function LatestPost() {
 					const nextScore = currentScore + 1;
 					setCached(nextScore);
 					globalThis.localStorage?.setItem("score", String(nextScore));
+
+					if (!isAuthenticated) return;
+
 					void createPost.mutateAsync({ name: String(nextScore) });
 				}}
 			>
 				{error && <p className="text-red-200 text-sm">{error}</p>}
 				<button
 					className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
+					disabled={isSaving}
 					type="submit"
 				>
 					Tap Me!

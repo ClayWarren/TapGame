@@ -29,6 +29,7 @@ export default async function Home() {
 					</a>
 
 					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8" />
+
 					<div className="flex flex-col items-center gap-2">
 						<div className="flex flex-col items-center justify-center gap-4">
 							<p className="text-center text-2xl text-white">
@@ -38,7 +39,7 @@ export default async function Home() {
 						</div>
 					</div>
 
-					{session?.user && <LatestPost />}
+					<LatestPost isAuthenticated={Boolean(session?.user)} />
 				</div>
 			</main>
 		</HydrateClient>
