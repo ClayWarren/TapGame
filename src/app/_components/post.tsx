@@ -8,12 +8,10 @@ export function LatestPost() {
 	const [latestPost] = api.post.getLatest.useSuspenseQuery();
 
 	const utils = api.useUtils();
-	const [name, setName] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const createPost = api.post.create.useMutation({
 		onSuccess: async () => {
 			await utils.post.invalidate();
-			setName("");
 			setError(null);
 		},
 		onError: (err) => {
@@ -32,28 +30,11 @@ export function LatestPost() {
 				className="flex flex-col gap-2"
 				onSubmit={async (e) => {
 					e.preventDefault();
-					const trimmed = name.trim();
-					if (!trimmed) {
-						setError("Title is required");
-						return;
-					}
-
-					try {
-						await createPost.mutateAsync({ name: trimmed });
-					} catch {}
 				}}
 			>
-				<input
-					className="w-full rounded-full bg-white/10 px-4 py-2 text-white"
-					onChange={(e) => setName(e.target.value)}
-					placeholder="Title"
-					type="text"
-					value={name}
-				/>
 				{error && <p className="text-red-200 text-sm">{error}</p>}
 				<button
 					className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-					disabled={createPost.isPending || name.trim().length === 0}
 					type="submit"
 				>
 					{createPost.isPending ? "Submitting..." : "Tap Me!"}
