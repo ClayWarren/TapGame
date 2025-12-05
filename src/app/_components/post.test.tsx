@@ -5,6 +5,8 @@ import { describe, expect, it, vi } from "vitest";
 import { createTRPCReactMock } from "../../../test/__mocks__/trpcReactMock";
 import { LatestPost } from "./post";
 
+const getSubmitButton = () => screen.getByRole("button", { name: /tap me!/i });
+
 // Create a mutable reference we can override per-test
 let mockApi: ReturnType<typeof createTRPCReactMock>;
 
@@ -33,7 +35,7 @@ describe("LatestPost component", () => {
 			target: { value: "Hello world" },
 		});
 
-		fireEvent.click(screen.getByText("Submit"));
+		fireEvent.click(getSubmitButton());
 
 		expect(mutateAsyncMock).toHaveBeenCalledWith({ name: "Hello world" });
 	});
@@ -64,7 +66,7 @@ describe("LatestPost component", () => {
 
 		render(<LatestPost />);
 
-		const form = screen.getByText("Submit").closest("form");
+		const form = getSubmitButton().closest("form");
 		if (!form) throw new Error("form not found");
 		fireEvent.submit(form);
 
@@ -90,7 +92,7 @@ describe("LatestPost component", () => {
 		fireEvent.change(screen.getByPlaceholderText("Title"), {
 			target: { value: "Test" },
 		});
-		const form = screen.getByText("Submit").closest("form");
+		const form = getSubmitButton().closest("form");
 		if (!form) throw new Error("form not found");
 		fireEvent.submit(form);
 
@@ -114,7 +116,7 @@ describe("LatestPost component", () => {
 		const input = screen.getByPlaceholderText("Title") as HTMLInputElement;
 
 		fireEvent.change(input, { target: { value: "New post" } });
-		fireEvent.click(screen.getByText("Submit"));
+		fireEvent.click(getSubmitButton());
 
 		await waitFor(() => {
 			expect(invalidateMock).toHaveBeenCalled();

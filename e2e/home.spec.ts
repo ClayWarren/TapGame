@@ -7,14 +7,9 @@ test.describe("home page", () => {
 		await page.goto("/");
 
 		await expect(
-			page.getByRole("heading", { level: 1, name: /Clay\s+Warren/i }),
+			page.getByRole("heading", { level: 1, name: /Tap\s+Game/i }),
 		).toBeVisible();
-		await expect(
-			page.getByRole("link", { name: /First Steps/i }),
-		).toBeVisible();
-		await expect(
-			page.getByRole("link", { name: /Documentation/i }),
-		).toBeVisible();
+		await expect(page.getByRole("link", { name: /GitHub/i })).toBeVisible();
 		await expect(
 			page.getByRole("button", { name: /sign in with github/i }),
 		).toBeVisible();
