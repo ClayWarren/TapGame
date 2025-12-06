@@ -38,18 +38,8 @@ export function LatestPost({ isAuthenticated }: { isAuthenticated: boolean }) {
 
 	return (
 		<div className="w-full max-w-xs">
-			{display !== null ? (
-				<p className="truncate">Score: {display}</p>
-			) : (
-				<p>You have no posts yet.</p>
-			)}
-			{!isAuthenticated && (
-				<p className="text-[color:var(--fg)] text-sm opacity-80">
-					Playing offline — sign in anytime to sync your score across devices.
-				</p>
-			)}
 			<form
-				className="flex flex-col gap-2"
+				className="flex flex-col items-center gap-3 text-center"
 				onSubmit={(e) => {
 					e.preventDefault();
 					const currentScore = Number(display) || 0;
@@ -62,7 +52,20 @@ export function LatestPost({ isAuthenticated }: { isAuthenticated: boolean }) {
 					void createPost.mutateAsync({ name: String(nextScore) });
 				}}
 			>
+				{display !== null ? (
+					<p className="font-semibold text-lg">Score: {display}</p>
+				) : (
+					<p>You have no posts yet.</p>
+				)}
+
 				{error && <p className="text-red-200 text-sm">{error}</p>}
+
+				{!isAuthenticated && (
+					<p className="text-[color:var(--fg)] text-sm opacity-80">
+						Playing offline — sign in anytime to sync your score across devices.
+					</p>
+				)}
+
 				<button
 					className="rounded-full bg-[color:var(--button-bg)] px-10 py-3 font-semibold text-[color:var(--button-fg)] shadow-sm transition hover:opacity-90"
 					disabled={isSaving}

@@ -55,7 +55,7 @@
 		"@types/pg": "^8.15.6",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
-		"@typescript/native-preview": "7.0.0-dev.20251204.1",
+		"@typescript/native-preview": "7.0.0-dev.20251205.1",
 		"@vitest/coverage-v8": "^4.0.15",
 		"dotenv": "^17.2.3",
 		"jsdom": "^27.2.0",
